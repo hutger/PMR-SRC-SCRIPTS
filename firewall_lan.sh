@@ -15,6 +15,9 @@ iptables –t nat -F
 iptables –P INPUT DROP
 iptables –P FORWARD DROP
 
+# Permitindo conexões ESTABLISHED e RELATED
+iptables –A INPUT –m state -–state ESTABLISHED,RELATED –j ACCEPT
+iptables –A FORWARD –m state -–state ESTABLISHED,RELATED –j ACCEPT
 
 # Permitindo acesso SSH ao Firewall a partir da rede Internal
 
