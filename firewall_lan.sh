@@ -19,6 +19,10 @@ iptables –P FORWARD DROP
 iptables –A INPUT –m state -–state ESTABLISHED,RELATED –j ACCEPT
 iptables –A FORWARD –m state -–state ESTABLISHED,RELATED –j ACCEPT
 
+# Permitindo conexao irrestrita da interface loopback
+iptables –A INPUT –i lo –j ACCEPT
+iptables –A FORWARD -i lo -o lo –m state -–state ESTABLISHED,RELATED –j ACCEPT
+
 # Permitindo acesso SSH ao Firewall a partir da rede Internal
 
 iptables –A INPUT –i $INTERNAL_IF –s $INTERNAL_NET –p tcp –-dport 22 –j ACCEPT
