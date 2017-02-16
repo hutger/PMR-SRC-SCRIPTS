@@ -1,0 +1,38 @@
+# Porta do Squid
+http_port 3128
+
+# Nome do servidor
+visible_hostname ServLinux
+
+# Cache
+cache_mem 700 MB
+maximum_object_size_in_memory 32 KB
+maximum_object_size 1024 MB 
+minimum_object_size 0 KB
+cache_swap_low 90
+cache_swap_high 95
+cache_mem 700 MB
+cache_dir ufs /squid/cache 100 16 256
+cache_effective_user squid
+cache_effective_group squid
+
+# Logs de acesso
+access_log /squid/logs/access.log squid
+
+# Bloqueio de sites por URL
+acl sites_proibidos url_regex -i "/etc/squid/sites_proibidos"
+http_access deny sites_proibidos
+
+# acl hora_almoco time MTWHF 12:00-13:00
+# http_access allow hora_almoco
+
+# Bloqueio de downloads por extensão
+acl downloads_proibidos url_regex -i \.exe \.torrent \.avi \.mp3
+http_access deny downloads_proibidos
+
+# Permissão rede local e servidor
+acl redelocal src 10.0.0.0/24
+http_access allow redelocal
+
+# Bloqueio de usuários fora da rede
+http_access deny all
